@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="border border-1 border-black navbarparentDiv">
+        <input type="text" class="inputfield" placeholder="Enter City">
+        <img src="searchicon.jpg" alt="" width="30px" class="searchicon">
+      </div>
+    </div>
+    <div class="mainContentParentDiv d-flex">
+      <div class="leftDiv">
+        <div class="currentTempDiv leftchild p-3 d-flex flex-column gap-2">
+          <h6 class="m-0" id="cityName">City Name</h6>
+          <h5 class="m-0" id="cityTemp">0 &deg;C</h5>
+          <h6 class="m-0" id="skyDesc">Sky Description</h6>
+          <hr class="line">
+          <div class="d-flex gap-2">
+            <img src="./calender.png" alt="" width="25px">
+            <h6 class="m-0" id="currentDate">Date</h6>
+          </div>
+          <div class="d-flex gap-2">
+            <img src="./time.png" alt="" width="25px">
+            <h6 class="m-0" id="currentTime">Time</h6>
+          </div>
+        </div>
+        <div class="nextFiveDaysDiv leftchild p-3 d-flex flex-column gap-2">
+          <h6 class="m-0" id="comingFiveDays">Coming 5 Days</h6>
+          <div class="d-flex flex-column gap-3" id="forecastRows">
+            <!-- Dynamic Forecast Rows will be added here -->
+          </div>
+        </div>
+      </div>
+      <div class="rightDiv">
+        <div class="rightRow rowOne d-flex gap-2 justify-content-between align-items-center">
+          <div class="extraMetric d-flex gap-2">
+            <img src="./pressure.png" alt="" width="35px">
+            <div>
+              <h6 class="m-0">Humidity</h6>
+              <h6 class="m-0" id="humidity">0</h6>
+            </div>
+          </div>
+          <div class="extraMetric d-flex gap-2">
+            <img src="./pressure.png" alt="" width="35px">
+            <div>
+              <h6 class="m-0">Pressure</h6>
+              <h6 class="m-0" id="pressure">0</h6>
+            </div>
+          </div>
+          <div class="extraMetric d-flex gap-2">
+            <img src="./pressure.png" alt="" width="35px">
+            <div>
+              <h6 class="m-0">Wind Speed</h6>
+              <h6 class="m-0" id="windSpeed">0</h6>
+            </div>
+          </div>
+          <div class="extraMetric d-flex gap-2">
+            <img src="./pressure.png" alt="" width="35px">
+            <div>
+              <h6 class="m-0">Feels Like</h6>
+              <h6 class="m-0" id="feelsLike">0</h6>
+            </div>
+          </div>
+        </div>
+        <div class="rightRow rowTwo d-flex justify-content-between align-items-center">
+          <div class="AQI rowTwoDiv p-3 d-flex flex-column">
+            <h5 class="m-0">Air Quality Index (AQI)</h5>
+            <div class="d-flex gap-4 align-items-center">
+              <img src="./AQI.png" alt="" width="45px">
+              <div>
+                <h6 class="m-0">AQI Level</h6>
+                <h6 class="m-0" id="aqiLevel">0</h6>
+              </div>
+            </div>
+          </div>
+          <div class="sunRise rowTwoDiv p-3 ">
+            <h5 class="m-0">Sunrise & Sunset</h5>
+            <div class="d-flex justify-content-between">
+              <div class="sunriseDiv d-flex gap-2 align-items-center">
+                <img src="./sun.png" alt="" width="75px">
+                <div class="d-flex flex-column gap-1">
+                  <h6 class="m-0">Sunrise</h6>
+                  <h5 class="m-0" id="sunrise">6:00 am</h5> <!-- Will be dynamically updated -->
+                </div>
+              </div>
+              <div class="sunsetDiv d-flex gap-2 align-items-center">
+                <img src="./moon.png" class="moon" alt="" width="65px">
+                <div class="d-flex flex-column gap-1">
+                  <h6 class="m-0">Sunset</h6>
+                  <h5 class="m-0" id="sunset">6:30 pm</h5> <!-- Will be dynamically updated -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rightRow rowThree d-flex flex-column gap-2">
+          <h5 class="m-0">Today</h5>
+          <div class="d-flex justify-content-between" id="hourlyForecast">
+            <!-- Dynamic Hourly Forecast will be added here -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+    <script>
+      const API_KEY = "d02b6e02cb41bbc4e75d7c8b83839a90";
+      const searchIcon = document.querySelector(".searchicon");
+      const inputField = document.querySelector(".inputfield");
+
+      searchIcon.addEventListener("click", () => {
+        const city = inputField.value.trim();
+        if (city) {
+          getWeather(city);
+        }
+      });
+
+      async function getWeather(city) {
+        try {
+          const res = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+          );
+          const data = await res.json();
+
+          // Update weather details in DOM
+          document.getElementById("cityName").innerText = data.name;
+          document.getElementById("cityTemp").innerHTML = `${data.main.temp} &deg;C`;
+          document.getElementById("skyDesc").innerText = data.weather[0].description;
+
+          const now = new Date();
+          document.getElementById("currentDate").innerText = now.toDateString();
+          document.getElementById("currentTime").innerText = now.toLocaleTimeString();
+
+          // Update metrics (humidity, pressure, wind speed, feels-like)
+          document.getElementById("humidity").innerText = `${data.main.humidity}%`;
+          document.getElementById("pressure").innerText = `${data.main.pressure} hPa`;
+          document.getElementById("windSpeed").innerText = `${data.wind.speed} m/s`;
+          document.getElementById("feelsLike").innerText = `${data.main.feels_like} °C`;
+
+          // Get and display sunrise and sunset times
+          const sunrise = new Date(data.sys.sunrise * 1000);
+          const sunset = new Date(data.sys.sunset * 1000);
+          document.getElementById("sunrise").innerText = sunrise.toLocaleTimeString();
+          document.getElementById("sunset").innerText = sunset.toLocaleTimeString();
+
+          await getForecast(city);
+          await getHourly(city);
+          await getAQI(data.coord.lat, data.coord.lon);
+
+        } catch (error) {
+          alert("City not found or network error!");
+          console.error(error);
+        }
+      }
+
+      async function getForecast(city) {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+        );
+        const data = await res.json();
+        const dailyForecast = data.list.filter((i) => i.dt_txt.includes("12:00:00")).slice(0, 5);
+
+        const forecastRows = document.getElementById("forecastRows");
+        forecastRows.innerHTML = ""; // Clear existing forecast rows
+
+        dailyForecast.forEach((day) => {
+          const date = new Date(day.dt_txt);
+          const row = document.createElement("div");
+          row.classList.add("forecastRow", "d-flex", "align-items-center", "justify-content-between");
+          row.innerHTML = `
+            <div class="d-flex gap-2 align-items-center">
+              <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" width="35">
+              <h6>${day.main.temp}&deg;C</h6>
+            </div>
+            <h6>${date.toLocaleDateString("en-GB", { weekday: "short" })}</h6>
+            <h6>${date.toLocaleDateString("en-GB")}</h6>
+          `;
+          forecastRows.appendChild(row);
+        });
+      }
+
+      async function getHourly(city) {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+        );
+        const data = await res.json();
+
+        // Filter to get forecast data for the current day
+        const today = data.list.filter((i) => {
+          const forecastDate = new Date(i.dt * 1000);
+          const currentDate = new Date();
+          return (
+            forecastDate.getDate() === currentDate.getDate() &&
+            forecastDate.getHours() >= currentDate.getHours()
+          );
+        }).slice(0, 6); // Get only the next 6 hours of data
+
+        const hourlyForecast = document.getElementById("hourlyForecast");
+        hourlyForecast.innerHTML = ""; // Clear existing hourly forecast
+
+        today.forEach((hour) => {
+          const hr = new Date(hour.dt * 1000).getHours() + ":00";
+          const cell = document.createElement("div");
+          cell.classList.add("todayTemp");
+          cell.innerHTML = `
+            <h6 class="m-0">${hr}</h6>
+            <img src="https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png" width="35px">
+            <h5 class="m-0">${hour.main.temp}&deg;C</h5>
+          `;
+          hourlyForecast.appendChild(cell);
+        });
+      }
+
+      async function getAQI(lat, lon) {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+        );
+        const data = await res.json();
+        const aqi = data.list[0].main.aqi;
+
+        document.getElementById("aqiLevel").innerText = aqi;
+      }
+    </script>
+  </body>
+</html>

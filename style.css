@@ -1,0 +1,167 @@
+body {
+  background-image: url('pexels-pixabay-76969.jpg');
+  background-position: top;
+  background-attachment: fixed;
+}
+.navbar {
+  height: 10vh;
+  background:black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.navbarparentDiv {
+  width: 50%;
+  height: fit-content;
+  position: relative;
+
+
+
+}
+.inputfield {
+  width: 100%;
+  border-radius: 25px;
+  padding: 10px;
+  border: white 1px solid;
+  outline: none;
+
+}
+.searchicon {
+position: absolute;
+right: 10px;
+top: 10px;
+}
+.searchicon:hover {
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+.mainContentParentDiv {
+   height: 90vh;
+}
+.leftDiv {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.leftchild {
+  background: rgba(232, 232, 232, 0.6);
+  width: 85%;
+  height: 40vh;
+  margin: auto;
+  border-radius: 15px;
+  backdrop-filter: blur(25px);
+}
+.currentTempDiv {
+  font-size: larger;
+}
+#cityName {
+  font-size: xx-large;
+}
+#cityTemp {
+  font-size: x-large;
+}
+.rightDiv {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+#comingFiveDays {
+  font-size: x-large;
+}
+.rightRow {
+  height: 27vh;
+  width:100%;
+}
+.extraMetric {
+  background: rgba(232, 232, 232, 0.6);
+  padding:4% ;
+  width: fit-content;
+  border-radius: 15px;
+  align-items: center;
+}
+.rowTwoDiv {
+  background: rgba(232, 232, 232, 0.6);
+  backdrop-filter:blur(25px);
+  width: 45%;
+  height: 90%;
+  border-radius: 15px;
+
+}
+.todayTemp {
+  background: rgba(232, 232, 232, 0.6);
+  width: fit-content;
+  padding: 15px;
+  border-radius: 15px;
+  backdrop-filter: blur(25px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .navbarparentDiv {
+    width: 90%;
+  }
+
+  .mainContentParentDiv {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 20px;
+  }
+
+  .leftDiv, .rightDiv {
+    width: 100%;
+    height: auto;
+    gap: 25px;
+    margin-top: 10px;
+  }
+
+  .leftchild {
+    width: 100%;
+    height: auto;
+  }
+
+  .rightRow {
+    flex-wrap: wrap;
+    gap: 10px;
+    height: auto;
+    width: 100%;
+    margin: auto;
+  }
+
+  .rowTwoDiv {
+    width: 100%;
+    height: auto;
+  }
+
+  .extraMetric {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .todayTemp {
+    width: 100px;
+    padding: 10px;
+  }
+
+  #hourlyForecast {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .forecastRow {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 5px;
+  }
+}
